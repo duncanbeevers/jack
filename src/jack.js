@@ -8,7 +8,7 @@
 
 function jack() {} // This needs to be here to make error reporting work correctly in IE.
 
-(function (){ // START HIDING FROM GLOBAL SCOPE
+(function (window){ // START HIDING FROM GLOBAL SCOPE
 	/** EXPORT JACK **/
 	window.jack = new Jack();
 	window.jack.matchers = new Matchers();
@@ -856,48 +856,5 @@ function jack() {} // This needs to be here to make error reporting work correct
 		}
 	}
 
-})(); // END HIDING FROM GLOBAL SCOPE
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+})(window); // END HIDING FROM GLOBAL SCOPE
 
