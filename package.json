@@ -1,0 +1,17 @@
+{
+  "author": "Karl-Erik Rønsen <keronsen@gmail.com>",
+  "name": "jack",
+  "description": "JavaScript mock toolkit",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/duncanbeevers/jack.git"
+  },
+  "main": "src/jack.js",
+  "engines": {
+    "node": "*"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
+
