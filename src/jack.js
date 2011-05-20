@@ -322,7 +322,7 @@ function jack() {} // This needs to be here to make error reporting work correct
 				result = expression;
 			} else if("string" === typeof expression) {
 				var parts = expression.split(" ");
-				result = parseInt(parts[0]);
+				result = parseInt(parts[0], 10);
 			}
 			return result;
 		}
@@ -636,7 +636,7 @@ function jack() {} // This needs to be here to make error reporting work correct
 			};
 
 			function parseTimes(times) {
-				return parseInt(times);
+				return parseInt(times, 10);
 			}
 		}
 		function addArgumentValue(index, value) {
