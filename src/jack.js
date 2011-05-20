@@ -10,8 +10,7 @@ function jack() {} // This needs to be here to make error reporting work correct
 
 (function (window){ // START HIDING FROM GLOBAL SCOPE
 	/** EXPORT JACK **/
-	this.jack = new Jack();
-	window.jack = this.jack;
+	window.jack = new Jack();
 	window.jack.matchers = new Matchers();
 	window.jack.util = new Util();
 	window.jack.FunctionSpecification = FunctionSpecification;
@@ -190,7 +189,7 @@ function jack() {} // This needs to be here to make error reporting work correct
 			return findGrab(name).reportAll(name);
 		}
 		function findGrab(name) {
-			var parts = name.split(".");
+			var parts = name.toString().split(".");
 			if(1 === parts.length && null !== functionGrabs[name]) {
 				return functionGrabs[name];
 			} else if(1 === parts.length && null !== objectGrabs[name]) {
@@ -849,6 +848,5 @@ function jack() {} // This needs to be here to make error reporting work correct
 				}
 		};
 	}
-
-}).call(this, window); // END HIDING FROM GLOBAL SCOPE
+})(this); // END HIDING FROM GLOBAL SCOPE
 
