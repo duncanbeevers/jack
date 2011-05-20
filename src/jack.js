@@ -77,9 +77,9 @@ function jack() {} // This needs to be here to make error reporting work correct
 					findMore = false;
 				} catch(exception) {
 					var line = -1;
-					if(exception.lineNumber != null) {
+					if(null !== exception.lineNumber) {
 						line = exception.lineNumber;
-					} else if(exception["opera#sourceloc"] != null) {
+					} else if(null !== exception["opera#sourceloc"]) {
 						line = exception["opera#sourceloc"];
 					}
 					currentExpectation._lineNumber = line;
@@ -135,7 +135,7 @@ function jack() {} // This needs to be here to make error reporting work correct
 			}
 		}
 		function grabFunction(fullName, grabbed, parentObject) {
-			if(parentObject == null) {
+			if(!parentObject) {
 				parentObject = window;
 			}
 			var functionName = fullName;
@@ -169,14 +169,14 @@ function jack() {} // This needs to be here to make error reporting work correct
 			return findGrab(name);
 		}
 		function expect(name) {
-			if(findGrab(name) == null) {
+			if(!findGrab(name)) {
 				grab(name);
 			}
 			currentExpectation = findGrab(name).expect().once();
 			return currentExpectation;
 		}
 		function verify(name) {
-			if(findGrab(name) == null) {
+			if(!findGrab(name)) {
 				grab(name);
 			}
 			currentExpectation = findGrab(name).expect().once();
@@ -190,18 +190,18 @@ function jack() {} // This needs to be here to make error reporting work correct
 		}
 		function findGrab(name) {
 			var parts = name.split(".");
-			if(parts.length == 1 && functionGrabs[name] != null) {
+			if(1 === parts.length && null !== functionGrabs[name]) {
 				return functionGrabs[name];
-			} else if(parts.length == 1 && objectGrabs[name] != null) {
+			} else if(1 === parts.length && null !== objectGrabs[name]) {
 				return objectGrabs[name];
 			} else {
-				if(functionGrabs[name] != null) {
+				if(undefined !== functionGrabs[name]) {
 					return functionGrabs[name];
 				}
-				if(objectGrabs[name] != null) {
+				if(undefined !== objectGrabs[name]) {
 					return objectGrabs[name];
 				}
-				if(objectGrabs[parts[0]] != null) {
+				if(undefined !== objectGrabs[parts[0]]) {
 					return objectGrabs[parts[0]].examine(parts[1]);
 				}
 				return undefined;
@@ -250,7 +250,7 @@ function jack() {} // This needs to be here to make error reporting work correct
 			}
 			invocations.push(invocation);
 			var specification = findSpecificationFor(invocation);
-			if(specification == null) {
+			if(null === specification) {
 				return grabbedFunction.apply(this, arguments);
 			} else if(specification.hasMockImplementation()) {
 				return specification.invoke.apply(this, arguments);
@@ -273,7 +273,7 @@ function jack() {} // This needs to be here to make error reporting work correct
 		function isArgumentContstraintsMatching(invocation, expectation) {
 			var constr = expectation._argumentConstraints;
 			var arg = invocation.arguments;
-			if(constr == null) {
+			if(null === constr) {
 				return true;
 			} else if(constr.length != arg.length) {
 				return false;
@@ -328,8 +328,8 @@ function jack() {} // This needs to be here to make error reporting work correct
 			return reports;
 		}
 		function report(specification, fullName) {
-			if(specification == null) {
-				if(specifications.length == 0) {
+			if(undefined === specification) {
+				if(0 === specifications.length) {
 					var spec = specify().never();
 					for(var i=0; i<invocations.length; i++) {
 						spec.invoke();
@@ -356,16 +356,16 @@ function jack() {} // This needs to be here to make error reporting work correct
 					replace("{actual}",report.actual);
 		}
 		function getArgumentsDisplay(expectation) {
-			if(expectation == null) {
+			if(null === expectation) {
 				return "";
 			}
 			var displayValues = [];
 			var constraints = expectation._argumentConstraints;
-			if(constraints == null) {
+			if(null === constraints) {
 				return "";
 			} else {
 				for(var i=0; i<constraints.length; i++) {
-					if(constraints[i] != null) {
+					if(null !== constraints[i]) {
 						displayValues.push(constraints[i][0].display);
 					} else {
 						displayValues.push("[any]");
@@ -444,20 +444,20 @@ function jack() {} // This needs to be here to make error reporting work correct
 	function Environment() {
 		var reportingEnabled = true;
 		function isJSSpec() {
-			return window.JSSpec != null;
+			return !!window.JSSpec;
 		}
 		function isScriptaculous() {
-			return window.Test != null && window.Test.Unit != null && window.Test.Unit.Runner != null;
+			return !!(window.Test && window.Test.Unit && window.Test.Unit.Runner);
 		}
 		function isQunit() {
-			return window.QUnit != null;
+			return !!(undefined !== window.QUnit && null !== window.QUnit);
 		}
 		function isJsTestDriver() {
-			return window.jstestdriver != null;
+			return !!window.jstestdriver;
 		}
 		function isYuiTest() {
 			var y = window.YAHOO;
-			return y != null && y.tool != null && y.tool.TestCase != null;
+			return !!(y && y.tool && y.tool.TestCase);
 		}
 		function report(message) {
 			if(!reportingEnabled) { return; }
@@ -656,22 +656,22 @@ function jack() {} // This needs to be here to make error reporting work correct
 			};
 		}
 		function createConstraintsArrayIfNull(argIndex) {
-			if(constraints == null) {
+			if(null === constraints) {
 				constraints = [];
 			}
-			if(constraints[argIndex] == null) {
+			if(undefined === constraints[argIndex]) {
 				constraints[argIndex] = [];
 			}
 		}
 		function test() {
 			var result = true;
-			if(constraints != null) {
+			if(null !== constraints) {
 				if(constraints.length != arguments.length) {
 					result = false;
 				} else {
 					for (var i = 0; i < constraints.length; i++) {
 						var oneArgumentsConstraints = constraints[i];
-						if (oneArgumentsConstraints != null) {
+						if (undefined !== oneArgumentsConstraints) {
 							for (var j = 0; j < oneArgumentsConstraints.length; j++) {
 								var constraint = oneArgumentsConstraints[j];
 								if (constraint && !constraint(arguments[i])) {
@@ -698,7 +698,7 @@ function jack() {} // This needs to be here to make error reporting work correct
 		}
 		function invoke() {
 			timing.actual++;
-			if(mockImplementation != null) {
+			if(null !== mockImplementation) {
 				return mockImplementation.apply(this, arguments);
 			}
 		}
@@ -723,7 +723,7 @@ function jack() {} // This needs to be here to make error reporting work correct
 			};
 		}
 		function hasMockImplementation() {
-			return mockImplementation != null;
+			return null !== mockImplementation;
 		}
 		function invocations() {
 			return {
@@ -738,12 +738,12 @@ function jack() {} // This needs to be here to make error reporting work correct
 			return name +"(" + describeConstraints() + ") " + describeTimes();
 		}
 		function describeConstraints() {
-			if(constraints == null) {
+			if(null === constraints) {
 				return "";
 			}
 			var descriptions = [];
 			for(var i=0; i<constraints.length; i++) {
-				if(constraints[i] != null) {
+				if(undefined !== constraints[i]) {
 					descriptions.push(constraints[i].describe());
 				} else {
 					descriptions.push("[any]");
@@ -808,7 +808,7 @@ function jack() {} // This needs to be here to make error reporting work correct
 				function(a, b, c) {
 					var match = c ? a[b]==c : a[b]!=undefined;
 					var bDisplay = b;
-					if(c != null) {
+					if(undefined !== c) {
 						bDisplay = {};
 						bDisplay[b] = c;
 					}
