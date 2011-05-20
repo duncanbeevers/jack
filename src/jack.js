@@ -95,18 +95,18 @@ function jack() {} // This needs to be here to make error reporting work correct
 			}
 		}
 		function getTextReports() {
-			var failedReports = [];
-			for(var name in functionGrabs) {
-				var reports = functionGrabs[name].reportAll(name);
-				for(var i=0; i<reports.length; i++) {
+			var failedReports = [], name, reports, i;
+			for(name in functionGrabs) {
+				reports = functionGrabs[name].reportAll(name);
+				for(i=0; i<reports.length; i++) {
 					if(reports[i].fail) {
 						failedReports.push(reports[i].message);
 					}
 				}
 			}
-			for(var name in objectGrabs) {
-				var reports = objectGrabs[name].report(name);
-				for(var i=0; i<reports.length; i++) {
+			for(name in objectGrabs) {
+				reports = objectGrabs[name].report(name);
+				for(i=0; i<reports.length; i++) {
 					if(reports[i].fail) {
 						failedReports.push(reports[i].message);
 					}
@@ -208,10 +208,11 @@ function jack() {} // This needs to be here to make error reporting work correct
 			}
 		}
 		function resetGrabs() {
-			for(var g in functionGrabs) {
+			var g;
+			for(g in functionGrabs) {
 				functionGrabs[g].reset();
 			}
-			for(var g in objectGrabs) {
+			for(g in objectGrabs) {
 				objectGrabs[g].reset();
 			}
 		}
@@ -839,13 +840,12 @@ function jack() {} // This needs to be here to make error reporting work correct
 				},
 			"isOneOf":
 				function() {
-					var a = arguments[0];
-					var b = [];
-					for(var i=1; i<arguments.length; i++) {
+					var a = arguments[0], b = [], i;
+					for(i=1; i<arguments.length; i++) {
 						b.push(arguments[i]);
 					}
 					var match = false;
-					for(var i=0; i<b.length; i++) {
+					for(i=0; i<b.length; i++) {
 						if(b[i] == a) {
 							match = true;
 						}
