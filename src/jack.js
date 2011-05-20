@@ -354,12 +354,12 @@ function jack() {} // This needs to be here to make error reporting work correct
 			return report;
 		}
 		function generateReportMessage(report, fullName, argumentsDisplay) {
-			return report.messageParts.template
-					.replace("{name}",fullName)
-					.replace("{arguments}",argumentsDisplay)
-					.replace("{quantifier}",report.messageParts.quantifier)
-					.replace("{expected}",report.expected)
-					.replace("{actual}",report.actual);
+			return report.messageParts.template.
+					replace("{name}",fullName).
+					replace("{arguments}",argumentsDisplay).
+					replace("{quantifier}",report.messageParts.quantifier).
+					replace("{expected}",report.expected).
+					replace("{actual}",report.actual);
 		}
 		function getArgumentsDisplay(expectation) {
 			if(expectation == null) {
