@@ -14,7 +14,7 @@ describe('Integration with JSSpec',{
 	}
 	,
 	'Should report unmet expectations by throwing an exeption': function() {
-		window.globalFunction = function() {}
+		window.globalFunction = function() {};
 		var actualException = null;
 		
 		try {
