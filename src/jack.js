@@ -260,12 +260,6 @@ function jack() {} // This needs to be here to make error reporting work correct
 			}
 		}
 		function matchInvocationsToSpecifications() {
-			for(var i=0; i<invocations.length; i++) {
-				var spec = findSpecificationFor(invocations[i]);
-				if(spec != null) {
-
-				}
-			}
 		}
 		function findSpecificationFor(invocation) {
 			for(var i=0; i<specifications.length; i++) {
