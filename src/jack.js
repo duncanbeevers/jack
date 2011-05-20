@@ -10,7 +10,8 @@ function jack() {} // This needs to be here to make error reporting work correct
 
 (function (window){ // START HIDING FROM GLOBAL SCOPE
 	/** EXPORT JACK **/
-	window.jack = new Jack();
+	this.jack = new Jack();
+	window.jack = this.jack;
 	window.jack.matchers = new Matchers();
 	window.jack.util = new Util();
 	window.jack.FunctionSpecification = FunctionSpecification;
@@ -849,5 +850,5 @@ function jack() {} // This needs to be here to make error reporting work correct
 		};
 	}
 
-})(window); // END HIDING FROM GLOBAL SCOPE
+}).call(this, window); // END HIDING FROM GLOBAL SCOPE
 
