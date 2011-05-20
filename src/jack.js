@@ -15,7 +15,6 @@ function jack() {} // This needs to be here to make error reporting work correct
 	window.jack.util = new Util();
 	window.jack.FunctionSpecification = FunctionSpecification;
 	window.jack.FunctionGrab = FunctionGrab;
-	return;
 
 
 	/**
@@ -28,7 +27,6 @@ function jack() {} // This needs to be here to make error reporting work correct
 		var reportMessages = [];
 		var currentExpectation = null;
 		var publicApi = createPublicApi();
-		return publicApi;
 
 		function createPublicApi() {
 			var api = jackFunction;
@@ -217,6 +215,8 @@ function jack() {} // This needs to be here to make error reporting work correct
 				objectGrabs[g].reset();
 			}
 		}
+
+		return publicApi;
 	} // END Jack()
 
 
@@ -231,18 +231,6 @@ function jack() {} // This needs to be here to make error reporting work correct
 		var emptyFunction = function(){};
 
 		init();
-		return {
-			'times': function() { return invocations.length; },
-			'reset': reset,
-			'expect': expect,
-			'specify': specify,
-			'report': report,
-			'reportAll': reportAll,
-			'mock': mock,
-			'stub': stub,
-			'arguments': getArguments,
-			'name': function() { return functionName }
-		};
 
 		function init() {
 			var original = parentObject[functionName];
@@ -394,6 +382,19 @@ function jack() {} // This needs to be here to make error reporting work correct
 		function getArguments() {
 			return invocations[0].getArgumentValues();
 		}
+
+		return {
+			'times': function() { return invocations.length; },
+			'reset': reset,
+			'expect': expect,
+			'specify': specify,
+			'report': report,
+			'reportAll': reportAll,
+			'mock': mock,
+			'stub': stub,
+			'arguments': getArguments,
+			'name': function() { return functionName }
+		};
 	} // END FunctionGrab()
 
 
@@ -404,13 +405,6 @@ function jack() {} // This needs to be here to make error reporting work correct
 		var grabs = {};
 
 		init();
-		return {
-			'examine': getGrab,
-			'report': report,
-			'getGrab': getGrab,
-			'getGrabs': function() {  return grabs },
-			'reset': reset
-		};
 
 		function init() {
 			for(key in grabbedObject) {
@@ -438,6 +432,14 @@ function jack() {} // This needs to be here to make error reporting work correct
 				grabs[g].reset();
 			}
 		}
+
+		return {
+			'examine': getGrab,
+			'report': report,
+			'getGrab': getGrab,
+			'getGrabs': function() {  return grabs },
+			'reset': reset
+		};
 	}
 
 
@@ -446,21 +448,6 @@ function jack() {} // This needs to be here to make error reporting work correct
 	 */
 	function Environment() {
 		var reportingEnabled = true;
-		init();
-		return {
-			'isJSSpec': isJSSpec,
-			'isScriptaculous': isScriptaculous,
-			'isQunit': isQunit,
-			'isJsTestDriver': isJsTestDriver,
-			'isYuiTest': isYuiTest,
-			'report': report,
-			'disableReporting': function() { reportingEnabled = false; },
-			'enableReporting': function() { reportingEnabled = true; },
-			'reset': function() {}
-		}
-		function init() {
-
-		}
 		function isJSSpec() {
 			return window.JSSpec != null;
 		}
@@ -491,16 +478,23 @@ function jack() {} // This needs to be here to make error reporting work correct
 				throw new Error(message);
 			}
 		}
+		return {
+			'isJSSpec': isJSSpec,
+			'isScriptaculous': isScriptaculous,
+			'isQunit': isQunit,
+			'isJsTestDriver': isJsTestDriver,
+			'isYuiTest': isYuiTest,
+			'report': report,
+			'disableReporting': function() { reportingEnabled = false; },
+			'enableReporting': function() { reportingEnabled = true; },
+			'reset': function() {}
+		}
 	}
 
 	/**
 	 *
 	 */
 	function Util() {
-		return {
-			'displayValue': displayValue
-		}
-
 		function displayValue() {
 			var value = arguments[0];
 			var prefix = "";
@@ -553,6 +547,10 @@ function jack() {} // This needs to be here to make error reporting work correct
 			}
 			return '{' + keyValues.join(',') + '}';
 		}
+
+		return {
+			'displayValue': displayValue
+		}
 	}
 
 	/**
@@ -565,7 +563,6 @@ function jack() {} // This needs to be here to make error reporting work correct
 		var timing = {actual: 0, expected: 1, modifier: 0};
 
 		var api = createApi();
-		return api;
 
 		function createApi() {
 			var api = {};
@@ -600,7 +597,6 @@ function jack() {} // This needs to be here to make error reporting work correct
 				return api;
 			}
 			api.withNoArguments = function() { constraints = []; return api; }
-			return api;
 
 			function addMatcher(argIndex, name, collection) {
 				collection[name] = function() {
@@ -611,6 +607,8 @@ function jack() {} // This needs to be here to make error reporting work correct
 					return api;
 				}
 			}
+
+			return api;
 		}
 		function mixinTiming(api) {
 			api.exactly = function(times) {
@@ -778,6 +776,7 @@ function jack() {} // This needs to be here to make error reporting work correct
 			}
 			return description;
 		}
+		return api;
 	}
 
 
@@ -785,6 +784,14 @@ function jack() {} // This needs to be here to make error reporting work correct
 	 *
 	 */
 	function Matchers() {
+		function result(match, actual, prefix, expected) {
+			return {
+				result: match,
+				actual: jack.util.displayValue(actual),
+				expected: jack.util.displayValue(prefix, expected)
+			}
+		}
+
 		return {
 			'is':
 				function(a, b) {
@@ -845,14 +852,6 @@ function jack() {} // This needs to be here to make error reporting work correct
 					}
 					return result(match, a, 'oneOf:', b);
 				}
-		}
-
-		function result(match, actual, prefix, expected) {
-			return {
-				result: match,
-				actual: jack.util.displayValue(actual),
-				expected: jack.util.displayValue(prefix, expected)
-			}
 		}
 	}
 
