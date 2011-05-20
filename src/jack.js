@@ -62,7 +62,7 @@ function jack() {} // This needs to be here to make error reporting work correct
 				if(grab._beenThroughSecondPass) {
 					var ex = grab.expect();
 					for(prop in ex) {
-						if(typeof ex[prop] == "function") {
+						if("function" === typeof ex[prop]) {
 							fakeEx[prop] = function() { return fakeEx; }
 						}
 					}
@@ -79,8 +79,8 @@ function jack() {} // This needs to be here to make error reporting work correct
 					var line = -1;
 					if(exception.lineNumber != null) {
 						line = exception.lineNumber;
-					} else if(exception['opera#sourceloc'] != null) {
-						line = exception['opera#sourceloc'];
+					} else if(exception["opera#sourceloc"] != null) {
+						line = exception["opera#sourceloc"];
 					}
 					currentExpectation._lineNumber = line;
 				}
@@ -115,7 +115,7 @@ function jack() {} // This needs to be here to make error reporting work correct
 			return failedReports;
 		}
 		function grab() {
-			if("object" == typeof arguments[0] && "string" == typeof arguments[1]) {
+			if("object" === typeof arguments[0] && "string" === typeof arguments[1]) {
 				var parentObject = arguments[0];
 				var name = arguments[1];
 				var fullName = "[local]." + name;
@@ -123,12 +123,12 @@ function jack() {} // This needs to be here to make error reporting work correct
 			} else {
 				var grabbed = null;
 				eval("grabbed = " + arguments[0]);
-				if("function" == typeof grabbed) {
+				if("function" === typeof grabbed) {
 					var functionGrab = grabFunction(arguments[0], grabbed);
 					eval("grabbed = " + arguments[0]);
 					grabObject(arguments[0], grabbed);
 					return functionGrab;
-				} else if("object" == typeof grabbed) {
+				} else if("object" === typeof grabbed) {
 					return grabObject(arguments[0], grabbed);
 				}
 				return null;
@@ -140,11 +140,11 @@ function jack() {} // This needs to be here to make error reporting work correct
 			}
 			var functionName = fullName;
 			var nameParts = fullName.split(".");
-			if(nameParts[0] == "[local]") {
+			if("[local]" === nameParts[0]) {
 				functionName = nameParts[1];
 			} else if(nameParts.length > 1) {
 				functionName = nameParts.pop();
-				if(parentObject == window) {
+				if(window === parentObject) {
 					var parentName = nameParts.join(".");
 					eval("parentObject = " + parentName);
 				}
@@ -286,7 +286,7 @@ function jack() {} // This needs to be here to make error reporting work correct
 				for(var i=0; i<constr.length; i++) {
 					if(!constr[i]) { continue; }
 					for(var j=0; j<constr[i].length; j++) {
-						if(typeof constr[i][j] == "function" && !constr[i][j](arg[i])) {
+						if("function" === typeof constr[i][j] && !constr[i][j](arg[i])) {
 							return false;
 						}
 					}
@@ -317,9 +317,9 @@ function jack() {} // This needs to be here to make error reporting work correct
 		}
 		function parseTimes(expression) {
 			var result = 0;
-			if("number" == typeof expression) {
+			if("number" === typeof expression) {
 				result = expression;
-			} else if("string" == typeof expression) {
+			} else if("string" === typeof expression) {
 				var parts = expression.split(" ");
 				result = parseInt(parts[0]);
 			}
@@ -373,10 +373,10 @@ function jack() {} // This needs to be here to make error reporting work correct
 					if(constraints[i] != null) {
 						displayValues.push(constraints[i][0].display);
 					} else {
-						displayValues.push('[any]');
+						displayValues.push("[any]");
 					}
 				}
-				return displayValues.join(', ');
+				return displayValues.join(", ");
 			}
 		}
 		function getArguments() {
@@ -384,16 +384,16 @@ function jack() {} // This needs to be here to make error reporting work correct
 		}
 
 		return {
-			'times': function() { return invocations.length; },
-			'reset': reset,
-			'expect': expect,
-			'specify': specify,
-			'report': report,
-			'reportAll': reportAll,
-			'mock': mock,
-			'stub': stub,
-			'arguments': getArguments,
-			'name': function() { return functionName }
+			"times": function() { return invocations.length; },
+			"reset": reset,
+			"expect": expect,
+			"specify": specify,
+			"report": report,
+			"reportAll": reportAll,
+			"mock": mock,
+			"stub": stub,
+			"arguments": getArguments,
+			"name": function() { return functionName }
 		};
 	} // END FunctionGrab()
 
@@ -409,7 +409,7 @@ function jack() {} // This needs to be here to make error reporting work correct
 		function init() {
 			for(key in grabbedObject) {
 				var property =  grabbedObject[key];
-				if("function" == typeof property) {
+				if("function" === typeof property) {
 					grabs[key] = new FunctionGrab(key, property, grabbedObject);
 				}
 			}
@@ -434,11 +434,11 @@ function jack() {} // This needs to be here to make error reporting work correct
 		}
 
 		return {
-			'examine': getGrab,
-			'report': report,
-			'getGrab': getGrab,
-			'getGrabs': function() {  return grabs },
-			'reset': reset
+			"examine": getGrab,
+			"report": report,
+			"getGrab": getGrab,
+			"getGrabs": function() {  return grabs },
+			"reset": reset
 		};
 	}
 
@@ -479,15 +479,15 @@ function jack() {} // This needs to be here to make error reporting work correct
 			}
 		}
 		return {
-			'isJSSpec': isJSSpec,
-			'isScriptaculous': isScriptaculous,
-			'isQunit': isQunit,
-			'isJsTestDriver': isJsTestDriver,
-			'isYuiTest': isYuiTest,
-			'report': report,
-			'disableReporting': function() { reportingEnabled = false; },
-			'enableReporting': function() { reportingEnabled = true; },
-			'reset': function() {}
+			"isJSSpec": isJSSpec,
+			"isScriptaculous": isScriptaculous,
+			"isQunit": isQunit,
+			"isJsTestDriver": isJsTestDriver,
+			"isYuiTest": isYuiTest,
+			"report": report,
+			"disableReporting": function() { reportingEnabled = false; },
+			"enableReporting": function() { reportingEnabled = true; },
+			"reset": function() {}
 		}
 	}
 
@@ -502,17 +502,17 @@ function jack() {} // This needs to be here to make error reporting work correct
 				value = arguments[1];
 				prefix = arguments[0];
 			}
-			if(value == undefined) {
+			if(undefined === value|| null === value) {
 				return displayValueNullOrUndefined(value);
 			}
 			var display = displayValueDefault(value);
-			if('string' == typeof value) {
+			if("string" === typeof value) {
 				display = displayValueString(value);
-			} else if(value.constructor == Array) {
+			} else if(Array === value.constructor) {
 				display = displayValueArray(value);
-			} else if(value.constructor == RegExp) {
+			} else if(RegExp === value.constructor) {
 				display = displayValueRegExp(value);
-			} else if('object' == typeof value) {
+			} else if("object" === typeof value) {
 				display = displayValueObject(value);
 			}
 			return prefix + display;
@@ -531,7 +531,7 @@ function jack() {} // This needs to be here to make error reporting work correct
 			return "[" + displayValues.join(",") + "]";
 		}
 		function displayValueNullOrUndefined(value) {
-			if(value === undefined) {
+			if(undefined === value) {
 				return "undefined";
 			} else if(value === null) {
 				return "null";
@@ -543,13 +543,13 @@ function jack() {} // This needs to be here to make error reporting work correct
 		function displayValueObject(value) {
 			var keyValues = [];
 			for(var p in value) {
-				keyValues.push(p + ':' + displayValue(value[p]));
+				keyValues.push(p + ":" + displayValue(value[p]));
 			}
-			return '{' + keyValues.join(',') + '}';
+			return "{" + keyValues.join(",") + "}";
 		}
 
 		return {
-			'displayValue': displayValue
+			"displayValue": displayValue
 		}
 	}
 
@@ -690,8 +690,8 @@ function jack() {} // This needs to be here to make error reporting work correct
 			return result;
 		}
 		function testTimes(times) {
-			if(timing.modifier == 0) {
-				return times == timing.expected;
+			if(0 === timing.modifier) {
+				return times === timing.expected;
 			} else if(timing.modifier == 1) {
 				return times >= timing.expected;
 			} else if(timing.modifier == -1) {
@@ -758,12 +758,12 @@ function jack() {} // This needs to be here to make error reporting work correct
 		}
 		function describeTimes() {
 			var description = timing.expected;
-			if(timing.expected == 1) {
+			if(1 === timing.expected) {
 				description += " time";
 			} else {
 				description += " times";
 			}
-			if(timing.modifier == 0) {
+			if(0 === timing.modifier) {
 				description = "expected exactly " + description;
 			} else if(timing.modifier > 0) {
 				description = "expected at least " + description;
@@ -793,23 +793,23 @@ function jack() {} // This needs to be here to make error reporting work correct
 		}
 
 		return {
-			'is':
+			"is":
 				function(a, b) {
-					return result(a==b, a, '', b);
+					return result(a==b, a, "", b);
 				},
-			'isNot':
+			"isNot":
 				function(a, b) {
-					return result(a!=b, a, 'not:', b);
+					return result(a!=b, a, "not:", b);
 				},
-			'isType':
+			"isType":
 				function(a, b) {
-					return result(b == typeof a, a, 'type:', b);
+					return result(b == typeof a, a, "type:", b);
 				},
-			'matches':
+			"matches":
 				function(a, b) {
-					return result(b.test(a), a, 'matching:', b)
+					return result(b.test(a), a, "matching:", b)
 				},
-			'hasProperty':
+			"hasProperty":
 				function(a, b, c) {
 					var match = c ? a[b]==c : a[b]!=undefined;
 					var bDisplay = b;
@@ -817,9 +817,9 @@ function jack() {} // This needs to be here to make error reporting work correct
 						bDisplay = {};
 						bDisplay[b] = c;
 					}
-					return result(match, a, 'property:', bDisplay)
+					return result(match, a, "property:", bDisplay)
 				},
-			'hasProperties':
+			"hasProperties":
 				function(a, b) {
 					var match = true;
 					for(var p in b) {
@@ -827,17 +827,17 @@ function jack() {} // This needs to be here to make error reporting work correct
 							match = false;
 						}
 					}
-					return result(match, a, 'properties:', b);
+					return result(match, a, "properties:", b);
 				},
-			'isGreaterThan':
+			"isGreaterThan":
 				function(a, b) {
-					return result(b < a, a, '>', b);
+					return result(b < a, a, ">", b);
 				},
-			'isLessThan':
+			"isLessThan":
 				function(a, b) {
-					return result(b > a, a, '<', b);
+					return result(b > a, a, "<", b);
 				},
-			'isOneOf':
+			"isOneOf":
 				function() {
 					var a = arguments[0];
 					var b = [];
@@ -850,7 +850,7 @@ function jack() {} // This needs to be here to make error reporting work correct
 							match = true;
 						}
 					}
-					return result(match, a, 'oneOf:', b);
+					return result(match, a, "oneOf:", b);
 				}
 		}
 	}
